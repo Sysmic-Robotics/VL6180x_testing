@@ -1,4 +1,3 @@
-//#include "Adafruit_VL6180X.h"
 //#include "Arduino.h"
 
 // Define some additional registers mentioned in application notes and we use
@@ -27,19 +26,20 @@ Adafruit_VL6180X::Adafruit_VL6180X(uint8_t i2caddr) : _i2caddr(i2caddr) {}
 
 /**************************************************************************/
 /*!
-    @brief  Initializes I2C interface, checks that VL6180X is found and resets 
+    @brief  Initializes I2C interface, checks that VL6180X is found and resets
    chip.
     @param  theWire Optional pointer to I2C interface, &Wire is used by default
     @returns True if chip found and initialized, False otherwise
 */
 /**************************************************************************/
 
-//según el brief, inicializa la interfaz I2C, por lo tanto, se usa HAL_I2C_Init()??
+// según el brief, inicializa la interfaz I2C, por lo tanto, se usa
+// HAL_I2C_Init()?? o hacer una función
 
-HAL_I2C_INIT(I2C_HandleTypeDef *i2cHandler); 
-//¿cómo se aplica la estructura VL6180X? 
+HAL_I2C_INIT(I2C_HandleTypeDef *i2cHandler);
+//¿cómo se aplica la estructura VL6180X?
 
-//código en C++
+// código en C++
 boolean Adafruit_VL6180X::begin(TwoWire *theWire) {
   // only needed to support setAddress()
   _i2c = theWire;
@@ -73,9 +73,10 @@ boolean Adafruit_VL6180X::begin(TwoWire *theWire) {
 */
 /**************************************************************************/
 
-//para setear la dirección, se podría buscar la configuración Device Address en stm32cubeide, especificamente en .ioc
+// para setear la dirección, se podría buscar la configuración Device Address en
+// stm32cubeide, especificamente en .ioc
 
-//código en C++
+// código en C++
 /*
 boolean Adafruit_VL6180X::setAddress(uint8_t newAddr) {
   // BUGBUG - not sure if we detect errors or not...
@@ -89,7 +90,7 @@ boolean Adafruit_VL6180X::setAddress(uint8_t newAddr) {
 
   return i2c_dev->begin();
 }
-*/ 
+*/
 /**************************************************************************/
 /*!
     @brief  gets the address of the device

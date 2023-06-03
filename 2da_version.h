@@ -1,9 +1,10 @@
 #ifndef _ADAFRUIT_VL6180X_H
 #define _ADAFRUIT_VL6180X_H
 
-#include <stdbool.h> //de ser necesario
-#include <stdint.h>  //de ser necesario
 #include <stdio.h>   //de ser necesario
+#include <stdbool.h> //de ser necesario
+#include <stdlib.h> //de ser necesario
+#include <string.h>
 #include "stm32fxxx_hal.h" // incluye la biblioteca HAL 
 
 //direccion i2c
