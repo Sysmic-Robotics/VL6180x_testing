@@ -1,7 +1,7 @@
-#define _ADAFRUIT_VL6180X_H
+#define _VL6180X_H_
 
 //#include "Arduino.h"
-//#include <Adafruit_I2CDevice.h>
+//#include <I2CDevice.h>
 
 #define VL6180X_DEFAULT_I2C_ADDR 0x29
 ///< The fixed I2C addres
@@ -82,7 +82,7 @@
 #include <stdbool.h> //de ser necesario
 #include <stdint.h>  //de ser necesario
 #include <stdio.h>   //de ser necesario
-#include "stm32fxxx_hal.h" 
+#include "stm32f1xx_hal.h" 
 
 #define VL6180X_DEFAULT_I2C_ADDR 0x29
 
@@ -90,37 +90,33 @@ typedef struct VL6180X {
   I2C_HandleTypeDef *i2cHandler;
   // TwoWire *_i2c;
   uint8_t i2cAddress;
-  uint8_t rxBuffer[128];
-  uint8_t txBuffer[128];
+  uint8_t rxBuffer[4];
+  uint8_t txBuffer[4];
   // revisar tamaño de los buffer en librería wire.h
   //tambien revisar I2C control interface pag 42 
-} VL6180X;
+} VL6180X_Handler_t;
 
-VL6180X* Adafruit_VL6180X_create(uint8_t i2caddr);
-void Adafruit_VL6180X_destroy(VL6180X* vl6180x);
-int Adafruit_VL6180X_begin(VL6180X* vl6180x);
-int Adafruit_VL6180X_setAddress(VL6180X *vl6180x, uint8_t newAddr);
-uint8_t Adafruit_VL6180X_getAddress(VL6180X *vl6180x);
+uint16_t VL6180X_Read16(VL6180X_Handler_t *device, uint16_t command);
+uint8_t VL6180X_Read8(VL6180X_Handler_t *device, uint16_t command);
+void VL6180X_Write8(VL6180X_Handler_t* device, uint16_t command, uint8_t data);
+void VL6180X_Write16(VL6180X_Handler_t* device, uint16_t command, uint16_t data);
+bool VL6180X_Init(VL6180X_Handler_t *device, I2C_HandleTypeDef *i2cHandler, uint8_t i2cAddress);
 
-uint8_t Adafruit_VL6180X_readRange(VL6180X *vl6180x);
-float Adafruit_VL6180X_readLux(VL6180X *vl6180x, uint8_t gain);
-uint8_t Adafruit_VL6180X_readRangeStatus(VL6180X *vl6180x);
+void VL6180X_LoadSettings(VL6180X_Handler_t *device);
 
-int Adafruit_VL6180X_startRange(VL6180X *vl6180x);
-int Adafruit_VL6180X_isRangeComplete(VL6180X *vl6180x);
-int Adafruit_VL6180X_waitRangeComplete(VL6180X *vl6180x);
-uint8_t Adafruit_VL6180X_readRangeResult(VL6180X *vl6180x);
+uint8_t VL6180X_ReadRange(VL6180X_Handler_t *device);
+float VL6180X_ReadLux(VL6180X_Handler_t *device, uint8_t gain);
+uint8_t VL6180X_ReadRangeStatus(VL6180X_Handler_t *device);
 
-void Adafruit_VL6180X_startRangeContinuous(VL6180X *vl6180x,
+bool VL6180X_StartRange(VL6180X_Handler_t *device);
+bool VL6180X_IsRangeComplete(VL6180X_Handler_t *device);
+bool VL6180X_WaitRangeComplete(VL6180X_Handler_t *device);
+uint8_t VL6180X_ReadRangeResult(VL6180X_Handler_t *device);
+
+void VL6180X_StartRangeContinuous(VL6180X_Handler_t *device,
                                            uint16_t period_ms);
-void Adafruit_VL6180X_stopRangeContinuous(VL6180X *vl6180x);
+void VL6180X_StopRangeContinuous(VL6180X_Handler_t *device);
 
-void Adafruit_VL6180X_setOffset(VL6180X *vl6180x, uint8_t offset);
-void Adafruit_VL6180X_getID(VL6180X *vl6180x, uint8_t *id_ptr);
+void VL6180X_SetOffset(VL6180X_Handler_t *device, uint8_t offset);
+void VL6180X_GetID(VL6180X_Handler_t *device, uint8_t *id_ptr);
 
-void Adafruit_VL6180X_loadSettings(VL6180X *vl6180x);
-// void Adafruit_VL6180X_write8(Adafruit* vl6180x, uint16_t address, uint8_t
-// data); void Adafruit_VL6180X_write16(Adafruit* vl6180x, uint16_t address,
-// uint16_t data);
-uint16_t Adafruit_VL6180X_read16(VL6180X *vl6180x, uint16_t address);
-uint8_t Adafruit_VL6180X_read8(VL6180X *vl6180x, uint16_t address);
